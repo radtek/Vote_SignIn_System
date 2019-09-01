@@ -150,7 +150,7 @@ void MainDialog::OnHotKey(UINT nHotKeyID, UINT nKey1, UINT nKey2) {
 		case 202:
 			sign_in_flag = true;
 
-			pf = (LRESULT(*)(MainDialog*,WPARAM,LPARAM))(&MainDialog::SignIn);
+			//pf = (LRESULT(*)(MainDialog*,WPARAM,LPARAM))(&MainDialog::SignIn);
 			
 			SendMessageA(this->GetSafeHwnd(), WM_SYSCOMMAND, WM_SIGNIN, (LPARAM)(vDI[0]));
 			break;
@@ -161,7 +161,7 @@ void MainDialog::OnHotKey(UINT nHotKeyID, UINT nKey1, UINT nKey2) {
 		case 204:
 			vote_flag = true;
 
-			pf = (LRESULT(*)(WPARAM, LPARAM))(&MainDialog::Vote);
+			//pf = (LRESULT(*)(WPARAM, LPARAM))(&MainDialog::Vote);
 
 			SendMessageA(this->GetSafeHwnd(), WM_SYSCOMMAND, WM_VOTE, (LPARAM)(vDI[0]));
 			break;
