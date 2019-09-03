@@ -18,6 +18,10 @@ struct CONF {
 	int color_index;
 	int beam_width;
 
+	CFont new_font;
+	CFont old_font;
+	COLORREF font_color;
+
 	std::vector<CString> names;
 	std::vector<unsigned int> votes;
 
@@ -27,11 +31,16 @@ struct CONF {
 	int terminal_ids;
 	int sign_in_nums;
 
+	CDC* cdc;
+
 	CString SignInTitle;
 
-	CONF() : com_index(0), baud_rate_index(0), beam_total_nums(0), 
-		color_index(0), beam_width(0), terminal_ids(0), 
-		sign_in_nums(0), sign_in_caption(L"") {}
+	CONF() : com_index(0), baud_rate_index(0), beam_total_nums(0),
+		color_index(0), beam_width(0), terminal_ids(0),
+		sign_in_nums(0), sign_in_caption(L""), cdc(nullptr) {}
+
+
+
 };
 
 

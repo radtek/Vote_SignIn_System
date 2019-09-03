@@ -11,17 +11,18 @@
 #define BUFSIZ 512
 
 
-
+extern CONF config;
 DrawItem::DrawItem() {
 	bk_path = "./res/bk.jpg";
 	bk_img.Load(bk_path);
-	screen_width = GetSystemMetrics(SM_CXSCREEN);
-	screen_height = GetSystemMetrics(SM_CYSCREEN);
+
 }
 
 
 void DrawItem::DrawBackImg(CDC& pdc) {
 	
+	screen_height = GetSystemMetrics(SM_CYSCREEN);
+	screen_width = GetSystemMetrics(SM_CXSCREEN);
 	bk_img.Draw(pdc, 0, 0, screen_width, screen_height);
 
 }
@@ -36,9 +37,6 @@ void DrawItem::SetPaintDC(CDC* dc) {
 }
 
 
-
-
-
 //DrawVoteModular
 
 
@@ -50,35 +48,11 @@ void DrawVoteModular::Init() {
 }
 
 
-void DrawVoteModular::DrawForeText(std::vector<CString>& names, std::vector<unsigned int> votes, int beam_width, int mem_nums) {
-	int size = names.size();
-	CFont* old_font = m_pdc->GetCurrentFont();
-	LOGFONT lf;
-	old_font->GetLogFont(&lf);
-	//old_font->CreatePointFontIndirect(&lf, m_pdc);
-	int font_height = lf.lfHeight;
-	int font_width = lf.lfWidth;
-
-	int width = screen_width / (size + 1);
-	beam_width = beam_width > width ? width : beam_width;
-	int height = screen_height / (mem_nums + 10);
-	int bottom = height * (mem_nums + 5);
-	int string_start_x = width / 2;
-	for (int i = 0; i < size; ++i) {
-		int len = names[i].GetLength();
-		m_pdc->TextOutW(string_start_x - names[i].GetLength() / 2 * font_width, bottom, names[i]);
-		
-		CRect fillRect;
-		fillRect.top = bottom - height * votes[i];
-		fillRect.left = string_start_x - beam_width / 2;
-		fillRect.bottom = bottom;
-		fillRect.right = string_start_x + beam_width / 2;
-		m_pdc->FillRect(&fillRect, m_pbrush);
-	}
+void DrawVoteModular::DrawForeText(CDC & pdc) {
+	
 	
 	
 }
-
 
 
 //DrawSignInModular
@@ -88,32 +62,56 @@ void DrawSignInModular::Init() {
 }
 
 
-void DrawSignInModular::DrawForeText(std::vector<CString>& types, std::vector<unsigned int> signin_mems, int beam_width, int mem_nums) {
-	int size = types.size();
-	CFont* old_font = m_pdc->GetCurrentFont();
-	LOGFONT lf;
-	old_font->CreatePointFontIndirect(&lf);
+void DrawSignInModular::DrawForeText(CDC& pdc) {
+	int size = config.sign_in_nums;
 	
-
-	int heigth = screen_height / (types.size() + 5);
-
-	int font_height = lf.lfHeight > heigth ? heigth : lf.lfHeight;
-	int font_width = lf.lfWidth;
+	//CFont* old_font = pdc.GetCurrentFont();
+	//LOGFONT lf;
 	
-	int string_start_x = screen_width / 2;
+	TEXTMETRIC tm;
+	//old_font->CreateFontIndirectW(&lf);
 	
+	pdc.GetTextMetrics(&tm);
 
-	int string_start_y = heigth * 4;
+	int font_height = tm.tmHeight;
+	int font_width = tm.tmAveCharWidth;
 
-	for (int i = 0; i < size; ++i) {
-		m_pdc->TextOutW(string_start_x - types[i].GetLength() * font_width / 2, string_start_y, types[i]);
-		m_pdc->TextOutW(string_start_x, screen_width / 2, L":");
-		char c[BUFSIZ];
-		sprintf_s(c, "%d", signin_mems[i]);
-		m_pdc->TextOutW(string_start_x + font_width * 10, string_start_y, CString(c));
-		string_start_y += font_height;
+	
+	screen_height = GetSystemMetrics(SM_CYSCREEN);
+	screen_width = GetSystemMetrics(SM_CXSCREEN);
+	
+	int string_start_y = screen_height / 7;
+
+
+	std::vector<CString> vcs;
+	CString tmp;
+	vcs.push_back(CString(config.sign_in_caption));
+
+	tmp.Format(L"%s:%d", L"应到人数", config.sign_in_nums);
+	vcs.push_back(tmp);
+
+	tmp.Format(L"%s:%d", L"实到人数", device_ids.size());
+	vcs.push_back(tmp);
+
+	tmp.Format(L"%s:%d", L"未到人数", config.sign_in_nums - device_ids.size());
+	vcs.push_back(tmp);
+
+	tmp.Format(L"%s:%.2f%%", L"出勤率", device_ids.size() / (float)config.sign_in_nums * 100);
+	vcs.push_back(tmp);
+
+	int max_len = 0;
+	
+	
+	
+	for (int i = 0; i < vcs.size(); ++i) {
+
+
+		//int string_start_x = screen_width / 2 - max_len * font_width / 2;
+		//pdc.TextOutW(string_start_x, string_start_y * (i + 1), vcs[i]);
+		int string_start_x = screen_width / 2 - pdc.GetTextExtent(vcs[i]).cx / 2;
+		pdc.TextOutW(string_start_x, string_start_y * (i + 1), vcs[i]);
+		
 	}
-
 
 
 	

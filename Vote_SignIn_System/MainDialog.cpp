@@ -14,11 +14,16 @@
 #include <functional>
 
 
+
 #define VOTE_IDX	0
 #define SIGNIN_IDX	1
 
 
+
+//签到 id
 std::set<unsigned int> device_ids;
+
+
 PortOperator* opt_mscomm = nullptr;
 
 unsigned int func_index = 0;
@@ -40,8 +45,9 @@ MainDialog::MainDialog(CWnd* pParent /*=nullptr*/)
 	sign_in_flag = false;
 	vote_flag = false;
 	
-	for (int i = 0; i < 10; ++i)
-		device_ids.insert(i);
+
+	//device_ids的签到测试导出excel
+
 }
 
 
@@ -88,7 +94,7 @@ END_MESSAGE_MAP()
 // MainDialog 消息处理程序
 
 BOOL MainDialog::OnInitDialog() {
-	//SendMessage(WM_SYSCOMMAND, SC_MAXIMIZE, 0);
+	SendMessage(WM_SYSCOMMAND, SC_MAXIMIZE, 0);
 	RegisterHotKey(GetSafeHwnd(), 200, MOD_CONTROL, VK_F11);
 	RegisterHotKey(GetSafeHwnd(), 201, 0, VK_F2);
 	RegisterHotKey(GetSafeHwnd(), 202, 0, VK_F3);
@@ -118,23 +124,36 @@ void MainDialog::ShowConfigDialog() {
 
 void MainDialog::OnPaint() {
 	
+	
 	CDC* dc = GetDC();
+	
+	
 	CDC pDc;
 	CBitmap bitmap;
+	//dc->SelectObject(&config.new_font);
 	bitmap.CreateCompatibleBitmap(dc, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
 
+
 	pDc.CreateCompatibleDC(dc);
-	pDc.SelectObject(&bitmap);
-	pDc.SetBkMode(TRANSPARENT);
-	unsigned int i = 2;	
-	vDI[0]->DrawBackImg(pDc);
 	
-	pDc.TextOutW(GetSystemMetrics(SM_CXSCREEN)-400, GetSystemMetrics(SM_CYSCREEN)-100, L"hello world");
+	pDc.SelectObject(&bitmap);
+
+	pDc.SetBkMode(TRANSPARENT);
+	vDI[func_idx]->DrawBackImg(pDc);
+	pDc.TextOutW(GetSystemMetrics(SM_CXSCREEN) - 400, GetSystemMetrics(SM_CYSCREEN) - 100, L"hello world");
+	unsigned int i = 2;	
+	
+	pDc.SelectObject(&(config.new_font));
+	pDc.SetTextColor(config.font_color);
+	
+	vDI[func_idx]->DrawForeText(pDc);
+	
 	dc->BitBlt(0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), &pDc, 0, 0, SRCCOPY);
 	
 	ReleaseDC(dc);
 	
-	CWnd::OnPaint();
+	CDialogEx::OnPaint();
+	//
 }
 
 
@@ -151,23 +170,25 @@ void MainDialog::OnHotKey(UINT nHotKeyID, UINT nKey1, UINT nKey2) {
 			sign_in_flag = true;
 
 			//pf = (LRESULT(*)(MainDialog*,WPARAM,LPARAM))(&MainDialog::SignIn);
-			
-			SendMessageA(this->GetSafeHwnd(), WM_SYSCOMMAND, WM_SIGNIN, (LPARAM)(vDI[0]));
+			MessageBox(L"在点击确认按钮后开始进入签到模式");
+			//SendMessageA(this->GetSafeHwnd(), WM_SYSCOMMAND, WM_SIGNIN, (LPARAM)(vDI[0]));
 			break;
 		case 203:
 			sign_in_flag = false;
-			SendMessageA(this->GetSafeHwnd(), WM_SYSCOMMAND, WM_END_SIGNIN, (LPARAM)nullptr);
+			MessageBox(L"在点击确认按钮后终止签到模式");
+			//SendMessageA(this->GetSafeHwnd(), WM_SYSCOMMAND, WM_END_SIGNIN, (LPARAM)nullptr);
 			break;
 		case 204:
 			vote_flag = true;
-
+			MessageBox(L"在点击确认按钮后开始进入投票模式");
 			//pf = (LRESULT(*)(WPARAM, LPARAM))(&MainDialog::Vote);
 
-			SendMessageA(this->GetSafeHwnd(), WM_SYSCOMMAND, WM_VOTE, (LPARAM)(vDI[0]));
+			//SendMessageA(this->GetSafeHwnd(), WM_SYSCOMMAND, WM_VOTE, (LPARAM)(vDI[0]));
 			break;
 		case 205:
 			vote_flag = false;
-			SendMessageA(this->GetSafeHwnd(), WM_SYSCOMMAND, WM_END_VOTE, (LPARAM)nullptr);
+			MessageBox(L"在点击确认按钮后终止投票模式");
+			//SendMessageA(this->GetSafeHwnd(), WM_SYSCOMMAND, WM_END_VOTE, (LPARAM)nullptr);
 			break;
 	}
 	CDialogEx::OnHotKey(nHotKeyID, nKey1, nKey2);
@@ -197,7 +218,13 @@ LRESULT MainDialog::SignIn(WPARAM wParam, LPARAM lParam) {
 
 	if (!sign_in_flag) return 0;
 
+	//device_ids.insert();
+	if (device_ids.find((unsigned int)wParam) != device_ids.end()) return 0;
+	device_ids.insert((unsigned int)wParam);
 
+	Invalidate(false);
+
+	UpdateWindow();
 
 	return 0;
 }
@@ -208,7 +235,8 @@ LRESULT MainDialog::Vote(WPARAM wParam, LPARAM lParam) {
 	if (!vote_flag) return 0;
 
 
-
+	
+	Invalidate(true);
 	return 0;
 }
 
@@ -242,6 +270,7 @@ LRESULT MainDialog::ExportVotesToExcel(WPARAM wParam, LPARAM lParam) {
 	}
 	_excel.ExcelSave();
 	_excel.ExcelClose();
+	MessageBox(L"export vote is successful");
 	return 0;
 }
 
@@ -285,12 +314,13 @@ LRESULT MainDialog::ExportSignInToExcel(WPARAM wParam, LPARAM lParam) {
 	_excel.ExcelSetVal(0, 3, L"未到人数");
 	_excel.ExcelSetVal(1, 3, CString(_variant_t(config.sign_in_nums - device_ids.size())));
 
-	_excel.ExcelSetVal(0, 4, L"到勤率");
+	_excel.ExcelSetVal(0, 4, L"出勤率");
 	_excel.ExcelSetVal(1, 4, rate);
 
 
 	_excel.ExcelSave();
 	_excel.ExcelClose();
+	MessageBox(L"export sign in successful");
 	return 0;
 }
 
@@ -328,8 +358,14 @@ void MainDialog::OnCommMscomm()
 		MessageBox(L"0xa2");
 		break;
 	case 0xa3:
-		MessageBox(L"0xa2");
+		func_idx = SIGNIN_IDX;
+		for (int i = 0; i < packge_len; ++i) {
+			SignIn((WPARAM)data[i], 0);
+		}
+		MessageBox(L"0xa3");
 		break;
+
+		
 
 	}
 

@@ -98,6 +98,7 @@ public:
 	afx_msg void OnBtnClickedButtonSignInExportData();
 	afx_msg void OnSysCommand(UINT, LPARAM);
 	afx_msg void OnBtnClickedButtonApply();
+	afx_msg void OnBtnClickedButtonSetFontStyle();
 
 	DECLARE_EVENTSINK_MAP()
 

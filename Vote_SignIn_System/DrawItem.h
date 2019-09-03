@@ -4,6 +4,10 @@
 #include"stdafx.h"
 #include<vector>
 
+#include "structtype.h"
+#include <set>
+
+//extern CONF config;
 
 
 
@@ -12,10 +16,12 @@ class DrawItem {
 public:
 	DrawItem();
 	virtual void Init() = 0;
+	
 	virtual void DrawBackImg(CDC& pdc);
-	virtual void DrawForeText(std::vector<CString>& types, std::vector<unsigned int> votes, int beam_width, int mem_nums) = 0;
+	virtual void DrawForeText(CDC& pdc) = 0;
 	void SetPaintDC(CDC* dc);
 	void SetBrush(CBrush* brush);
+
 
 protected:
 	virtual ~DrawItem() {}
@@ -27,7 +33,11 @@ protected:
 	CDC* m_pdc;
 	CBrush* m_pbrush;
 	CString Title;
+
+
 };
+
+
 
 
 
@@ -36,7 +46,7 @@ class DrawVoteModular : public DrawItem {
 public:
 
 	virtual void Init();
-	virtual void DrawForeText(std::vector<CString>& types, std::vector<unsigned int> votes, int beam_width, int mem_nums);
+	virtual void DrawForeText(CDC& pdc);
 
 };
 
@@ -46,7 +56,8 @@ class DrawSignInModular : public DrawItem {
 public:
 
 	virtual void Init();
-	virtual void DrawForeText(std::vector<CString>& types, std::vector<unsigned int> votes, int beam_width, int mem_nums);
+	virtual void DrawForeText(CDC& pdc);
 
 };
 
+extern std::set<unsigned int> device_ids;

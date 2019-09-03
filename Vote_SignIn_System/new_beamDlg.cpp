@@ -64,7 +64,7 @@ BEGIN_MESSAGE_MAP(CnewbeamDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_WM_SYSCOMMAND()
-
+	ON_BN_CLICKED(IDC_BTN_FONT_STYLE, &CnewbeamDlg::OnBtnClickedButtonSetFontStyle)
 	ON_BN_CLICKED(IDC_SIGNIN_EXPORT_DATA, &CnewbeamDlg::OnBtnClickedButtonSignInExportData)
 	ON_BN_CLICKED(IDC_EXPORT_SCORE, &CnewbeamDlg::OnBtnClickedButtonExportScore)
 	ON_BN_CLICKED(IDC_IDC_SIGNIN_CAP, &CnewbeamDlg::OnBtnClickedButtonSignInCap)
@@ -186,6 +186,24 @@ HCURSOR CnewbeamDlg::OnQueryDragIcon()
 
 
 
+void CnewbeamDlg::OnBtnClickedButtonSetFontStyle() {
+	
+	CFontDialog fontDlg;
+	
+
+
+
+	if (fontDlg.DoModal()) {
+		if (config.new_font.m_hObject) {
+			config.new_font.DeleteObject();
+		}
+		config.new_font.CreateFontIndirectW(fontDlg.m_cf.lpLogFont);
+		//config.new_font = fontDlg.GetFont();
+		config.font_color = fontDlg.GetColor();
+
+	}	
+}
+
 
 void CnewbeamDlg::OnBtnClickedButtonComOpen() {
 	SendMessageA(this->GetParent()->GetSafeHwnd(), WM_OPEN_COM, 0, 0);
@@ -193,7 +211,7 @@ void CnewbeamDlg::OnBtnClickedButtonComOpen() {
 		GetDlgItem(IDC_BTN_COM_OPEN)->SetWindowTextW(L"打开端口");
 		
 	else GetDlgItem(IDC_BTN_COM_OPEN)->SetWindowTextW(L"关闭端口");
-
+	
 }
 
 void CnewbeamDlg::OnBtnClickedButtonEditNames() {
@@ -277,6 +295,9 @@ void CnewbeamDlg::OnBtnClickedButtonApply() {
 
 	//波特率idx
 	config.baud_rate_index = m_combox_baud_rate.GetCurSel();
+
+	GetParent()->Invalidate(false);
+	GetParent()->UpdateWindow();
 
 }
 
