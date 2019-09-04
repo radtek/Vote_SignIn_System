@@ -70,7 +70,7 @@ private:
 	std::vector<CString> m_port;
 	std::vector<CString> m_baud_rate;
 	std::vector<CString> m_color;
-	std::vector<COLORREF> m_colorref;
+	
 
 
 	EditNames* _m_edit_names;

@@ -17,7 +17,7 @@
 
 
 CONF config;
-
+std::vector<COLORREF> m_colorref;
 
 std::vector<CString> baud_rate = { _T("300"), _T("600"), _T("1200"), _T("2400"), _T("4800"), _T("9600"),
 	_T("19200"), _T("38400"), _T("43000"), _T("56000"), _T("57600"), _T("115200") };
@@ -286,6 +286,12 @@ void CnewbeamDlg::OnBtnClickedButtonApply() {
 
 	//终端ID数量
 	config.terminal_ids = _GetValue(m_edit_terminal_nums);
+
+
+	for (int i = vote_flag.size(); i < config.terminal_ids; ++i) {
+		vote_flag.push_back(false);
+	}
+
 
 	//签到总人数
 	config.sign_in_nums = _GetValue(m_edit_signin_total_nums);

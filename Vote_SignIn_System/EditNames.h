@@ -56,3 +56,5 @@ protected:
 };
 
 extern CONF config;
+extern std::vector<BOOL> vote_flag;
+

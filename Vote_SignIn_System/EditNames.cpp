@@ -63,7 +63,7 @@ void EditNames::OnButtonClikedReVotes() {
 	m_list_names.ResetContent();
 	config.names.clear();
 	config.votes.clear();
-
+	vote_flag.clear();
 }
 
 void EditNames::OnButtonClickedContinueVotes() {

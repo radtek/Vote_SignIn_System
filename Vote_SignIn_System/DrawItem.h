@@ -39,6 +39,15 @@ protected:
 
 
 
+class DrawBkModular : public DrawItem {
+public:
+
+	virtual void Init();
+	virtual void DrawForeText(CDC& pdc);
+};
+
+
+
 
 
 class DrawVoteModular : public DrawItem {
@@ -61,3 +70,4 @@ public:
 };
 
 extern std::set<unsigned int> device_ids;
+extern std::vector<COLORREF> m_colorref;;

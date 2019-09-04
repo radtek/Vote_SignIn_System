@@ -31,13 +31,13 @@ struct CONF {
 	int terminal_ids;
 	int sign_in_nums;
 
-	CDC* cdc;
+
 
 	CString SignInTitle;
 
 	CONF() : com_index(0), baud_rate_index(0), beam_total_nums(0),
 		color_index(0), beam_width(0), terminal_ids(0),
-		sign_in_nums(0), sign_in_caption(L""), cdc(nullptr) {}
+		sign_in_nums(0), sign_in_caption(L"") {}
 
 
 

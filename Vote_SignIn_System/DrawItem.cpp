@@ -37,6 +37,21 @@ void DrawItem::SetPaintDC(CDC* dc) {
 }
 
 
+//DrawBkModular
+
+
+
+
+void DrawBkModular::Init() {
+
+}
+
+
+void DrawBkModular::DrawForeText(CDC& pdc) {
+
+}
+
+
 //DrawVoteModular
 
 
@@ -50,8 +65,49 @@ void DrawVoteModular::Init() {
 
 void DrawVoteModular::DrawForeText(CDC & pdc) {
 	
+
+	TEXTMETRIC tm;
+
+
+	pdc.GetTextMetrics(&tm);
+
+	int font_height = tm.tmHeight;
+	int font_width = tm.tmWeight;
 	
 	
+	int screen_width = GetSystemMetrics(SM_CXSCREEN);
+	int screen_height = GetSystemMetrics(SM_CYSCREEN);
+
+	int beam_start_x, beam_start_y, names_start_x, names_start_y;
+
+	int height_delta, width_delta;
+
+
+	height_delta = screen_height / 10;
+	width_delta = screen_width / config.names.size();
+
+
+	beam_start_y = height_delta * 9;
+
+	names_start_y = beam_start_y + font_height * 1.5;
+	beam_start_x = width_delta / 2;
+
+
+	CBrush brush;
+	
+	brush.CreateSolidBrush(m_colorref[config.color_index]);
+	CBrush* old_brush = pdc.SelectObject(&brush);
+
+	for (int i = 0; i < config.names.size(); ++i) {
+		int string_start_x = beam_start_x * (i + 1) - pdc.GetTextExtent(config.names[i]).cx / 2;
+		pdc.TextOutW(string_start_x, names_start_y, config.names[i]);
+
+		int beam_start_x = beam_start_y * (i + 1) - config.beam_width / 2;
+		CRect rect(beam_start_x, beam_start_y - config.votes[i] * height_delta, beam_start_x + config.beam_width, beam_start_y);
+		pdc.FillRect(&rect, m_pbrush);
+	}
+	
+	pdc.SelectObject(old_brush);
 }
 
 

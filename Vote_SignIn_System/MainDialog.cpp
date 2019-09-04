@@ -13,15 +13,16 @@
 #include "ExcelOperator.h"
 #include <functional>
 
+#define _PRIVATE_API
 
-
-#define VOTE_IDX	0
-#define SIGNIN_IDX	1
+#define VOTE_IDX	1
+#define SIGNIN_IDX	2
 
 
 
 //签到 id
 std::set<unsigned int> device_ids;
+std::vector<BOOL> vote_flag;
 
 
 PortOperator* opt_mscomm = nullptr;
@@ -30,6 +31,9 @@ unsigned int func_index = 0;
 
 typedef LRESULT(*pf)(MainDialog* , WPARAM, LPARAM);
 //CMscomm mscomm;
+
+
+
 
 
 
@@ -55,8 +59,10 @@ MainDialog::MainDialog(CWnd* pParent /*=nullptr*/)
 
 
 void MainDialog::Init() {
+	vDI.push_back(new DrawBkModular());
 	vDI.push_back(new DrawVoteModular());
 	vDI.push_back(new DrawSignInModular());	
+	func_idx = 0;
 
 }
 
@@ -231,12 +237,52 @@ LRESULT MainDialog::SignIn(WPARAM wParam, LPARAM lParam) {
 
 //投票函数
 
+
+
+_PRIVATE_API float _translate_data(const unsigned char* data) {
+	float ret = 0;
+	int idx = 1;
+	int flag = false;
+	for (int i = 0; i < 3; ++i) {
+		for (int j = 0; j < 2; ++j) {
+			unsigned char tmp = (data[i] >> (4 * (1 - j))) & 0xf;
+			switch (tmp)
+			{
+			case 0:
+			case 1:
+			case 2:
+			case 3:
+			case 4:
+			case 5:
+			case 6:
+			case 7:
+			case 8:
+			case 9:
+				ret = ret * 10 + tmp * idx;
+				if (flag) idx *= 0.1;
+				break;
+			case 0xd:
+				idx *= 0.1;
+				flag = true;
+				break;
+			case 0xf:
+				return ret;
+				break;
+
+			}
+		}
+	}
+	return ret;
+
+}
+
 LRESULT MainDialog::Vote(WPARAM wParam, LPARAM lParam) {
 	if (!vote_flag) return 0;
 
-
+	float ret = _translate_data((unsigned char*)wParam);
 	
-	Invalidate(true);
+	
+	Invalidate(false);
 	return 0;
 }
 
@@ -352,17 +398,20 @@ void MainDialog::OnCommMscomm()
 	{
 
 	case 0xa1:
-		MessageBox(L"0xa1");
+		//MessageBox(L"0xa1");
 		break;
 	case 0xa2:
-		MessageBox(L"0xa2");
+		func_idx = VOTE_IDX;
+		for (int i = 0; i < packge_len; ++i) {
+			Vote((WPARAM)data[i], 0);
+		}
 		break;
 	case 0xa3:
 		func_idx = SIGNIN_IDX;
-		for (int i = 0; i < packge_len; ++i) {
+		for (int i = 0; i < packge_len - 2; ++i) {
 			SignIn((WPARAM)data[i], 0);
 		}
-		MessageBox(L"0xa3");
+		//MessageBox(L"0xa3");
 		break;
 
 		
