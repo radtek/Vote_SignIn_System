@@ -1,5 +1,19 @@
 ﻿#pragma once
 
+
+
+
+/*
+
+	功能		：	用于添加、删除被投票人的名字
+	作者		：	zxc
+	完成时间	：	2019-09-20
+
+
+
+*/
+
+
 #include <vector>
 #include "stdafx.h"
 // EditNames 对话框

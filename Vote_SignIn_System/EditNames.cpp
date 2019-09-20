@@ -58,6 +58,20 @@ BEGIN_MESSAGE_MAP(EditNames, CDialogEx)
 END_MESSAGE_MAP()
 
 
+
+
+/*
+
+	函数名	：	OnButtonClikedReVotes
+	参数		：	None
+	描述		：	用于重新投票
+	作者		：	zxc
+	时间		：	2019-9-20
+
+
+*/
+
+
 void EditNames::OnButtonClikedReVotes() {
 	if (m_list_names.GetCount() < 0) return;
 	m_list_names.ResetContent();
@@ -65,6 +79,21 @@ void EditNames::OnButtonClikedReVotes() {
 	config.votes.clear();
 	vote_flag.clear();
 }
+
+
+
+
+/*
+
+	函数名	：	OnButtonClickedContinueVotes
+	参数		：	None
+	描述		：	用于添加人员后继续投票
+	作者		：	zxc
+	时间		：	2019-9-20
+
+
+*/
+
 
 void EditNames::OnButtonClickedContinueVotes() {
 	MessageBox(L"本功能尚未完善，如需使用请不要删除参与投票的人员");
@@ -78,6 +107,20 @@ void EditNames::OnButtonClickedContinueVotes() {
 }
 
 
+
+
+
+/*
+
+	函数名	：	OnClose
+	参数		：	None
+	描述		：	将设置的人员添加到全局设置变量中并初始化相关人员的默认票数
+	作者		：	zxc
+	时间		：	2019-9-20
+
+
+*/
+
 void EditNames::OnClose() {
 	CString tmp;
 	for (int i = 0; i < m_list_names.GetCount(); ++i) {
@@ -88,6 +131,18 @@ void EditNames::OnClose() {
 	CDialogEx::OnClose();
 }
 
+
+
+/*
+
+	函数名	：	OnButtonClickedAdd
+	参数		：	None
+	描述		：	
+	作者		：
+	时间		：
+
+
+*/
 
 
 void EditNames::OnButtonClickedAdd() {
@@ -104,6 +159,18 @@ void EditNames::OnButtonClickedAdd() {
 }
 
 
+
+/*
+
+	函数名	：	OnButtonClickedDel
+	参数		：	None
+	描述		：	用于在投票环节中删除某位参赛人员
+	作者		：	zxc
+	时间		：	2019-9-20 
+
+
+*/
+
 void EditNames::OnButtonClickedDel(){
 
 	if (m_list_names.GetCurSel() < 0) return;
@@ -111,6 +178,18 @@ void EditNames::OnButtonClickedDel(){
 	m_list_names.DeleteString(m_list_names.GetCurSel());
 }
 
+
+
+/*
+
+	函数名	：	GetListValue
+	参数		：	None
+	描述		：	用于获取列表中的所有人员
+	作者		：	zxc
+	时间		：	2019-9-20
+
+
+*/
 
 std::vector<CString> EditNames::GetListValue() {
 	return m_vc_names;

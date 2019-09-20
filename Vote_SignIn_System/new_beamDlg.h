@@ -4,6 +4,18 @@
 //
 
 #pragma once
+
+
+/*
+	功能		：	用于显示设置的界面，其中设置的数据均会保存structtype的数据体中
+	作者		：	zxc
+	时间		：	2019-9-20
+
+
+*/
+
+
+
 #include <vector>
 
 #include "structtype.h"

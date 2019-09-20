@@ -41,7 +41,13 @@ BEGIN_MESSAGE_MAP(EditDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 
-
+/*
+	函数名	：	OnButtonClickedOk
+	参数		：	None
+	描述		：	用于设置全局配置中签到标题
+	作者		：	zxc
+	时间		：	2019-9-20
+*/
 
 void EditDlg::OnButtonClickedOk() {
 	GetDlgItemText(IDC_EDIT_ITEM, m_str_item);

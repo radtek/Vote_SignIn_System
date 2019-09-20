@@ -1,5 +1,16 @@
 #pragma once
 
+
+
+
+/*
+
+	功能		：	封装了部分Excel的操作，实现了打开，追加，设置单元格数据，关闭，新建等部分功能
+	作者		：	zxc
+	完成时间	：	2019-9-20
+
+*/
+
 #include "CApplication.h"
 #include "CRange.h"
 

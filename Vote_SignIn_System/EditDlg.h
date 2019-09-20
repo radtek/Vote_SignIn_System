@@ -1,6 +1,16 @@
 ﻿#pragma once
 
 
+/*
+
+	功能		：	用于更改签到标题
+	作者		：	zxc
+	完成时间	：	2019-09-20
+
+
+*/
+
+
 // EditDlg 对话框
 
 class EditDlg : public CDialogEx

@@ -7,6 +7,17 @@
 #define _STRUCT_TYPE
 
 
+
+/*
+
+	功能		：	定义了一个结构体，用于保存设置的显示属性
+	作者		：	zxc
+	时间		：	2019-9-20
+
+
+*/
+
+
 #include "stdafx.h"
 #include <vector>
 

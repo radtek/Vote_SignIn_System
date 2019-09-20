@@ -16,6 +16,10 @@
 #include <vector>
 
 
+
+
+
+
 CONF config;
 std::vector<COLORREF> m_colorref;
 
@@ -186,6 +190,15 @@ HCURSOR CnewbeamDlg::OnQueryDragIcon()
 
 
 
+/*
+	函数名		：	OnBtnClickedButtonSetFontStyle
+	参数			：	None
+	描述			：	用于设置前景显示字体的相关属性
+	作者			：	zxc
+	时间			：	2019-9-20
+
+*/
+
 void CnewbeamDlg::OnBtnClickedButtonSetFontStyle() {
 	
 	CFontDialog fontDlg;
@@ -205,6 +218,16 @@ void CnewbeamDlg::OnBtnClickedButtonSetFontStyle() {
 }
 
 
+
+
+/*
+	函数名		：	OnBtnClickedButtonComOpen
+	参数			：	None
+	描述			：	用于打开或者关闭端口
+	作者			：	zxc
+	时间			：	2019-9-20
+
+*/
 void CnewbeamDlg::OnBtnClickedButtonComOpen() {
 	SendMessageA(this->GetParent()->GetSafeHwnd(), WM_OPEN_COM, 0, 0);
 	if (opt_mscomm == nullptr || !opt_mscomm->GetPortStatus())
@@ -214,6 +237,18 @@ void CnewbeamDlg::OnBtnClickedButtonComOpen() {
 	
 }
 
+
+
+
+/*
+	函数名		：	OnBtnClickedButtonEditNames
+	参数			：	None
+	描述			：	用于显示添加参赛人员的对话框
+	作者			：	zxc
+	时间			：	2019-9-20
+
+*/
+
 void CnewbeamDlg::OnBtnClickedButtonEditNames() {
 
 	EditNames dlg;
@@ -221,6 +256,16 @@ void CnewbeamDlg::OnBtnClickedButtonEditNames() {
 	
 }
 
+
+
+/*
+	函数名		：	OnBtnClickedButtonExportScore
+	参数			：	None
+	描述			：	将打分导出消息传送至该处理函数
+	作者			：	zxc
+	时间			：	2019-9-20
+
+*/
 void CnewbeamDlg::OnBtnClickedButtonExportScore() {
 	
 
@@ -230,17 +275,48 @@ void CnewbeamDlg::OnBtnClickedButtonExportScore() {
 }
 
 
+
+
+/*
+	函数名		：	OnBtnClickedButtonSignInCap
+	参数			：	None
+	描述			：	签到标题的对话框显示
+	作者			：	zxc
+	时间			：	2019-9-20
+
+*/
 void CnewbeamDlg::OnBtnClickedButtonSignInCap() {
 	EditDlg dlg;
 	dlg.DoModal();
 }
 
 
+
+
+/*
+	函数名		：	OnBtnClickedButtonSignInExportData
+	参数			：	None
+	描述			：	签到数据导出发送给响应的函数进行处理
+	作者			：	zxc
+	时间			：	2019-9-20
+
+*/
 void CnewbeamDlg::OnBtnClickedButtonSignInExportData() {
 	
 	SendMessageA(this->GetParent()->GetSafeHwnd(), WM_EXPORT_SIGNIN_DATA, 0, 0);
 }
 
+
+
+
+/*
+	函数名		：	OnSysCommand
+	参数			：	None
+	描述			：	系统消息
+	作者			：	zxc
+	时间			：	2019-9-20
+
+*/
 void CnewbeamDlg::OnSysCommand(UINT nID, LPARAM lParam) {
 
 	if (nID == WM_RECV) {
@@ -260,6 +336,16 @@ END_EVENTSINK_MAP()
 
 
 
+
+
+/*
+	函数名		：	_GetValue
+	参数			：	CEdit&	edit
+	描述			：	
+	作者			：	zxc
+	时间			：	2019-9-20
+
+*/
 int CnewbeamDlg::_GetValue(CEdit& edit) {
 	CString tmp;
 	CStringA transform;
@@ -270,6 +356,18 @@ int CnewbeamDlg::_GetValue(CEdit& edit) {
 	return ret;
 }
 
+
+
+
+
+/*
+	函数名		：	OnBtnClickedButtonApply
+	参数			：	None
+	描述			：	将所有设置进行应用
+	作者			：	zxc
+	时间			：	2019-9-20
+
+*/
 void CnewbeamDlg::OnBtnClickedButtonApply() {
 	CString tmp;
 	CStringA tranform;

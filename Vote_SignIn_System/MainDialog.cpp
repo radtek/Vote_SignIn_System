@@ -128,6 +128,14 @@ void MainDialog::ShowConfigDialog() {
 }
 
 
+
+/*
+	描述		：	采用多态，用于绘制该软件的背景和前景显示
+	作者		：	zxc
+	时间		：	2019-9-20
+
+*/
+
 void MainDialog::OnPaint() {
 	
 	
@@ -162,6 +170,9 @@ void MainDialog::OnPaint() {
 	//
 }
 
+
+
+//	绑定热键
 
 void MainDialog::OnHotKey(UINT nHotKeyID, UINT nKey1, UINT nKey2) {
 	
@@ -239,6 +250,18 @@ LRESULT MainDialog::SignIn(WPARAM wParam, LPARAM lParam) {
 
 
 
+
+/*
+		-------------该功能尚未完善------------
+
+	函数名	：	_translate_data
+	参数		：	const unsignend char* data		为端口接收到的数据指针
+	描述		：	用于将打分中的数据进行翻译
+	作者		：	zxc
+	时间		：	2019-9-20
+
+
+*/
 _PRIVATE_API float _translate_data(const unsigned char* data) {
 	float ret = 0;
 	int idx = 1;
@@ -378,6 +401,16 @@ END_EVENTSINK_MAP()
 
 
 
+/*
+	函数名	：	OnCommMscomm
+	参数		：	None
+	描述		：	用于处理端口接收到的数据病激发响应函数
+	作者		：	zxc
+	时间		：	2019-9-20
+
+
+*/
+
 void MainDialog::OnCommMscomm()
 {
 	// TODO: 在此处添加消息处理程序代码
@@ -393,6 +426,11 @@ void MainDialog::OnCommMscomm()
 		data[i] = buf[i + 3];
 	}
 
+
+	/*
+	
+		响应消息相对可能较少，需要额外加入
+	*/
 
 	switch (command)
 	{

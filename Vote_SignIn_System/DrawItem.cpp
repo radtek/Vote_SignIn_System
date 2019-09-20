@@ -19,6 +19,19 @@ DrawItem::DrawItem() {
 }
 
 
+
+
+/*
+	
+	函数名	：	DrawBackImg
+	描述		：	用于绘制背景图片
+	参数		：	CDC pdc		用于双重缓冲的CDC设别环境
+	作者		：
+	时间		：
+
+
+*/
+
 void DrawItem::DrawBackImg(CDC& pdc) {
 	
 	screen_height = GetSystemMetrics(SM_CYSCREEN);
@@ -28,9 +41,35 @@ void DrawItem::DrawBackImg(CDC& pdc) {
 }
 
 
+
+/*
+	函数名	：	SetBrush
+	参数		：	CBrush* brush 传入CBrush设置显示柱体的填充色
+	描述		：	用于更改柱体的填充色的的画刷设备环境
+	作者		：	zxc
+	时间		：	2019-9-20
+
+
+*/
+
+
 void DrawItem::SetBrush(CBrush* brush) {
 	m_pbrush = brush;
 }
+
+
+
+
+/*
+	函数名	：	SetPaintDC
+	参数		：	CDC	用于设置传入的PaintDC设备环境
+	描述		：	更改双重缓冲中的CDC设备环境	
+	作者		：	zxc
+	时间		：	2019-9-20
+
+
+*/
+
 
 void DrawItem::SetPaintDC(CDC* dc) {
 	m_pdc = dc;
@@ -40,6 +79,15 @@ void DrawItem::SetPaintDC(CDC* dc) {
 //DrawBkModular
 
 
+/*
+	函数名	：	Init
+	参数		：	
+	描述		：	初始化绘制背景的相关参数
+	作者		：	zxc
+	时间		：	2019-9-20
+
+
+*/
 
 
 void DrawBkModular::Init() {
@@ -47,6 +95,18 @@ void DrawBkModular::Init() {
 }
 
 
+
+
+
+/*
+	函数名	：	DrawForeText
+	参数		：	CDC	在绘制背景中无用途
+	描述		：	本函数只为实现接口基类中的绘制前景字符的作用，在绘制背景中无任何作用
+	作者		：	zxc
+	时间		：	2019-9-20
+
+
+*/
 void DrawBkModular::DrawForeText(CDC& pdc) {
 
 }
@@ -56,11 +116,34 @@ void DrawBkModular::DrawForeText(CDC& pdc) {
 
 
 
+/*
+	函数名	：	Init
+	参数		：
+	描述		：	初始化绘制投票的相关参数
+	作者		：	zxc
+	时间		：	2019-9-20
+
+
+*/
 
 
 void DrawVoteModular::Init() {
 
 }
+
+
+
+/*
+	-------------该功能更尚未完善---------------
+	
+	函数名	：	DrawForeText
+	描述		：	用于实现投票中的自适应屏幕
+	参数		：	CDC用于传入双重缓冲中的设备环境
+	作者		：	zxc
+	时间		：	2019-9-20 
+
+
+*/
 
 
 void DrawVoteModular::DrawForeText(CDC & pdc) {
@@ -113,9 +196,38 @@ void DrawVoteModular::DrawForeText(CDC & pdc) {
 
 //DrawSignInModular
 
+
+
+
+/*
+	
+	函数名	：	Init
+	描述		：	初始化签到中的设备环境
+	参数		：	None
+	作者		：	zxc
+	时间		：	2019-9-20
+
+
+*/
+
+
 void DrawSignInModular::Init() {
 
 }
+
+
+
+
+/*
+	
+	函数名	：		DrawForeText
+	描述		：		用于绘制签到的前景显示文字
+	参数		：		CDC	用于传入双重缓冲的设备环境
+	作者		：		zxc
+	时间		：		2019-9-20
+
+
+*/
 
 
 void DrawSignInModular::DrawForeText(CDC& pdc) {

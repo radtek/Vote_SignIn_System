@@ -1,6 +1,19 @@
 #pragma once
 
 
+
+
+/*
+
+	功能		：	自定义了一部分消息
+	作者		：	zxc
+	时间		：	2019-9-20
+
+
+*/
+
+
+
 #include "stdafx.h"
 
 #define WM_VOTE					WM_USER + 100
